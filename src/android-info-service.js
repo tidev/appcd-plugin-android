@@ -372,7 +372,7 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 					console.log('ADB connection was closed');
 					gawk.set(this.data.devices, []);
 
-					if (!this.trackDeviceHandle.stopped) {
+					if (this.trackDeviceHandle && !this.trackDeviceHandle.stopped) {
 						// adb disconnected us and we should try to re-connect
 						console.log('Attempting to restart device tracking in 2 seconds...');
 						setTimeout(() => this.startTrackingDevices(), 2000);
