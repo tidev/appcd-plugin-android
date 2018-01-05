@@ -217,9 +217,6 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 			gawk.watch(this.data.sdk, async () => {
 				// we need to pause gawk so two events dont fire
 				this.data.__gawk__.pause();
-				this.data.devices.__gawk__.pause();
-				this.data.emulators.__gawk__.pause();
-				this.data.targets.__gawk__.pause();
 
 				console.log('Android SDK changed, rescanning emulators');
 				gawk.set(this.data.emulators, await androidlib.emulators.getEmulators({ force: true, sdks: this.data.sdk }));
@@ -292,14 +289,12 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 				// if adb changed...
 				if (adb !== this.selectedADB) {
 					// ...set the option and handle device tracking
-
 					console.log(`adb changed: ${this.selectedADB} => ${adb}`);
 
 					this.selectedADB = adb;
 
 					if (this.adbWatcherSid) {
-						// whatever adb path we were watching just changed, so stop watching the old
-						// one
+						// whatever adb path we were watching just changed, so stop watching the old path
 						await this.unwatch('adb', [ this.adbWatcherSid ]);
 						this.adbWatcherSid = null;
 					}
@@ -308,7 +303,7 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 						if (this.adbWatcherSid === null) {
 							this.adbWatcherSid = false;
 							this.watchPath({
-								debounce: true,
+								data: { path: adb },
 								handler: ({ action }) => {
 									if (action === 'add') {
 										this.startTrackingDevices();
@@ -316,21 +311,17 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 										this.stopTrackingDevices('adb was deleted');
 									}
 								},
-								data: { path: adb },
 								type: 'adb'
 							}).then(sid => this.adbWatcherSid = sid);
 						}
 
-						this.startTrackingDevices();
+						await this.startTrackingDevices();
 					} else {
 						this.stopTrackingDevices('adb no longer found');
 					}
 				}
 
 				// now we need to resume gawk
-				this.data.targets.__gawk__.resume();
-				this.data.emulators.__gawk__.resume();
-				this.data.devices.__gawk__.resume();
 				this.data.__gawk__.resume();
 
 				if (!initialized) {
@@ -355,10 +346,15 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 	/**
 	 * Starts tracking devices if not already tracking and if `adb` was found.
 	 *
+	 * @returns {Promise}
 	 * @access private
 	 */
 	startTrackingDevices() {
-		if (!this.trackDeviceHandle && isFile(this.selectedADB)) {
+		return new Promise(resolve => {
+			if (this.trackDeviceHandle || !isFile(this.selectedADB)) {
+				return resolve();
+			}
+
 			// we have adb and we're not already tracking devices
 
 			console.log('Starting device tracking %s', gray(`(${this.selectedADB})`));
@@ -370,6 +366,7 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 					console.log('Devices changed');
 					console.log(devices);
 					gawk.set(this.data.devices, devices);
+					resolve();
 				})
 				.on('close', () => {
 					console.log('ADB connection was closed');
@@ -378,7 +375,7 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 				.once('error', err => {
 					console.log('Track devices returned error: %s', err.message);
 				});
-		}
+		});
 	}
 
 	/**
