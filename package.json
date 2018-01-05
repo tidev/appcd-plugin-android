@@ -16,8 +16,8 @@
     "test": "gulp test"
   },
   "dependencies": {
-    "androidlib": "^2.3.1",
-    "gawk": "^4.4.4",
+    "androidlib": "^2.3.2",
+    "gawk": "^4.4.5",
     "semver": "^5.4.1",
     "source-map-support": "^0.5.0"
   },
