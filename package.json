@@ -25,11 +25,11 @@
     "appcd-gulp": "^1.0.1",
     "gulp": "^3.9.1"
   },
-  "homepage": "https://github.com/appcelerator/appc-daemon#readme",
-  "bugs": "https://github.com/appcelerator/appc-daemon/issues",
+  "homepage": "https://github.com/appcelerator/appcd-plugin-android#readme",
+  "bugs": "https://github.com/appcelerator/appcd-plugin-android/issues",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/appcelerator/appc-daemon.git"
+    "url": "git+https://github.com/appcelerator/appcd-plugin-android.git"
   },
   "appcd": {
     "appcdVersion": "1.x",
