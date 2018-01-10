@@ -108,9 +108,9 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.npmjs.org/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
-androidlib@^2.3.2:
-  version "2.3.2"
-  resolved "https://registry.npmjs.org/androidlib/-/androidlib-2.3.2.tgz#5ce321425632e040d6d274488fe2b70603b09ec2"
+androidlib@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.npmjs.org/androidlib/-/androidlib-2.3.3.tgz#5167af2b89815ecb1d5d60aee0ab5ffee0b37cb5"
   dependencies:
     appcd-fs "^1.0.1"
     appcd-logger "^1.0.1"
