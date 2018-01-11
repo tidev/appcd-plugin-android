@@ -16,13 +16,13 @@
     "test": "gulp test"
   },
   "dependencies": {
-    "androidlib": "^2.1.0",
-    "gawk": "^4.4.4",
+    "androidlib": "^2.3.3",
+    "gawk": "^4.4.5",
     "semver": "^5.4.1",
     "source-map-support": "^0.5.0"
   },
   "devDependencies": {
-    "appcd-gulp": "^1.0.0",
+    "appcd-gulp": "^1.0.1",
     "gulp": "^3.9.1"
   },
   "homepage": "https://github.com/appcelerator/appcd-plugin-android#readme",
