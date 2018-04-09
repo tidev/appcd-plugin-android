@@ -10,4 +10,4 @@
 
 # v1.0.0 (Dec 5, 2017)
 
- - Initial release.
+ * Initial release.
