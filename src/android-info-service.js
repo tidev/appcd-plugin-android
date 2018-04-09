@@ -198,11 +198,12 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 		});
 
 		let initialized = false;
-
+		const vboxConfig = androidlib.virtualbox.virtualBoxConfigFile[process.platform];
+		
 		this.watch({
 			type: 'avd',
 			depth: 2,
-			paths: [ androidlib.avd.getAvdDir() ],
+			paths: [ androidlib.avd.getAvdDir(), vboxConfig ],
 			debounce: true,
 			handler: async () => {
 				console.log('Rescanning Android emulators...');
