@@ -199,7 +199,7 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 
 		let initialized = false;
 		const vboxConfig = androidlib.virtualbox.virtualBoxConfigFile[process.platform];
-		
+
 		this.watch({
 			type: 'avd',
 			depth: 2,
