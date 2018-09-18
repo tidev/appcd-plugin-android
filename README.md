@@ -1,4 +1,4 @@
-> :warning: THIS REPO HAS MOVED TO https://github.com/appcelerator/appc-daemon-plugins
+:warning: THIS REPO HAS MOVED TO https://github.com/appcelerator/appc-daemon-plugins
 
 # appcd-plugin-android
 
