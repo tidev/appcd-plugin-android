@@ -1,3 +1,8 @@
+# v1.3.0
+
+ * Upgraded to Gulp 4.
+ * Update dependencies
+
 # v1.2.0 (Oct 25, 2018)
 
  * Moved to `@appcd` scope
