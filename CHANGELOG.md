@@ -2,6 +2,11 @@
 
  * Upgraded to Gulp 4.
  * Update dependencies
+ * Updated filesystem watching to use new `appcd.fs.watch()` and `appcd.fs.unwatch()` to optimize
+   subscriptions. [(DAEMON-253)](https://jira.appcelerator.org/browse/DAEMON-253)
+ * Utilize Genymotion service for detecting emulator changes instead of just watching the
+   VirtualBox config.
+   [(DAEMON-252)](https://jira.appcelerator.org/browse/DAEMON-252)
 
 # v1.2.0 (Oct 25, 2018)
 

@@ -5,7 +5,7 @@ import version from './version';
 
 import * as androidlib from 'androidlib';
 
-import { arrayify, debounce as debouncer, get, mergeDeep } from 'appcd-util';
+import { arrayify, debounce, get, mergeDeep } from 'appcd-util';
 import { bat, cmd, exe } from 'appcd-subprocess';
 import { DataServiceDispatcher } from 'appcd-dispatcher';
 import { isFile } from 'appcd-fs';
@@ -198,20 +198,37 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 		});
 
 		let initialized = false;
-		const vboxConfig = androidlib.virtualbox.virtualBoxConfigFile[process.platform];
 
-		this.watch({
+		const rescan = debounce(async () => {
+			console.log('Rescanning Android emulators...');
+			const emus = await androidlib.emulators.getEmulators({ force: true, sdks: this.data.sdk });
+			console.log(`Found ${emus.length} emulators`);
+			gawk.set(this.data.emulators, emus);
+		});
+
+		appcd.fs.watch({
 			type: 'avd',
 			depth: 2,
-			paths: [ androidlib.avd.getAvdDir(), vboxConfig ],
+			paths: [ androidlib.avd.getAvdDir() ],
 			debounce: true,
-			handler: async () => {
-				console.log('Rescanning Android emulators...');
-				const emus = await androidlib.emulators.getEmulators({ force: true, sdks: this.data.sdk });
-				console.log(`Found ${emus.length} emulators`);
-				gawk.set(this.data.emulators, emus);
-			}
+			handler: rescan
 		});
+
+		try {
+			const { response } = await appcd.call('/genymotion/1.x/info/emulators', { type: 'subscribe' });
+			response.on('data', rescan);
+		} catch (e) {
+			console.warn('Unable to subscribe to Genymotion, reverting to watching the VirtualBox config');
+			appcd.fs.watch({
+				type: 'vboxconf',
+				depth: 2,
+				paths: [
+					androidlib.virtualbox.virtualBoxConfigFile[process.platform]
+				],
+				debounce: true,
+				handler: rescan
+			});
+		}
 
 		return new Promise((resolve, reject) => {
 			// if sdks change, then refresh the simulators and update the targets object
@@ -296,24 +313,25 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 
 					if (this.adbWatcherSid) {
 						// whatever adb path we were watching just changed, so stop watching the old path
-						await this.unwatch('adb', [ this.adbWatcherSid ]);
+						await appcd.fs.unwatch('adb', [ this.adbWatcherSid ]);
 						this.adbWatcherSid = null;
 					}
 
 					if (adb) {
 						if (this.adbWatcherSid === null) {
-							this.adbWatcherSid = false;
-							this.watchPath({
-								data: { path: adb },
+							const { [adb]: sid } = await appcd.fs.watch({
+								type: 'adb',
+								paths: [ adb ],
+								debounce: true,
 								handler: ({ action }) => {
 									if (action === 'add') {
 										this.startTrackingDevices();
 									} else if (action === 'delete') {
 										this.stopTrackingDevices('adb was deleted');
 									}
-								},
-								type: 'adb'
-							}).then(sid => this.adbWatcherSid = sid);
+								}
+							});
+							this.adbWatcherSid = sid;
 						}
 
 						await this.startTrackingDevices();
@@ -406,109 +424,6 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 	}
 
 	/**
-	 * Subscribes to filesystem events for the specified paths.
-	 *
-	 * @param {Object} params - Various parameters.
-	 * @param {Boolean} [params.debounce=false] - When `true`, wraps the `handler` with a debouncer.
-	 * @param {Number} [params.depth] - The max depth to recursively watch.
-	 * @param {Function} params.handler - A callback function to fire when a fs event occurs.
-	 * @param {Array.<String>} params.paths - One or more paths to watch.
-	 * @param {String} params.type - The type of subscription.
-	 * @access private
-	 */
-	watch({ debounce, depth, handler, paths, type }) {
-		for (const path of paths) {
-			const data = { path };
-			if (depth) {
-				data.recursive = true;
-				data.depth = depth;
-			}
-
-			this.watchPath({ debounce, handler, data, type });
-		}
-	}
-
-	/**
-	 * Initializes a fs watcher for a single path.
-	 *
-	 * @param {Object} params - Various parameters.
-	 * @param {Boolean} [params.debounce=false] - When `true`, wraps the `handler` with a debouncer.
-	 * @param {Function} params.handler - A callback function to fire when a fs event occurs.
-	 * @param {Object} params.data - The data payload to send with the fs watch request.
-	 * @param {String} params.type - The type of subscription.
-	 * @returns {Promise<String>} Resolves the fs watch subscription id.
-	 * @access private
-	 */
-	watchPath({ debounce, handler, data, type }) {
-		const callback = debounce ? debouncer(handler) : handler;
-
-		return new Promise(resolve => {
-			appcd
-				.call('/appcd/fswatch', {
-					data,
-					type: 'subscribe'
-				})
-				.then(ctx => {
-					let sid;
-					ctx.response
-						.on('data', async (data) => {
-							if (data.type === 'subscribe') {
-								sid = data.sid;
-								if (!this.subscriptions[type]) {
-									this.subscriptions[type] = {};
-								}
-								this.subscriptions[type][data.sid] = 1;
-								resolve(sid);
-							} else if (data.type === 'event') {
-								callback(data.message);
-							}
-						})
-						.on('end', () => {
-							if (sid && this.subscriptions[type]) {
-								delete this.subscriptions[type][sid];
-							}
-						});
-				})
-				.catch(err => {
-					console.error(`Failed to watch "${data.path}"`);
-					console.error(err);
-				});
-		});
-	}
-
-	/**
-	 * Unsubscribes a list of filesystem watcher subscription ids.
-	 *
-	 * @param {Number} type - The type of subscription.
-	 * @param {Array.<String>} [sids] - An array of subscription ids to unsubscribe. If not
-	 * specified, defaults to all sids for the specified types.
-	 * @returns {Promise}
-	 * @access private
-	 */
-	async unwatch(type, sids) {
-		if (!this.subscriptions[type]) {
-			return;
-		}
-
-		if (!sids) {
-			sids = Object.keys(this.subscriptions[type]);
-		}
-
-		for (const sid of sids) {
-			await appcd.call('/appcd/fswatch', {
-				sid,
-				type: 'unsubscribe'
-			});
-
-			delete this.subscriptions[type][sid];
-		}
-
-		if (!Object.keys(this.subscriptions[type]).length) {
-			delete this.subscriptions[type];
-		}
-	}
-
-	/**
 	 * Stops the detect engines.
 	 *
 	 * @returns {Promise}
@@ -532,7 +447,7 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 
 		if (this.subscriptions) {
 			for (const type of Object.keys(this.subscriptions)) {
-				await this.unwatch(type);
+				await appcd.fs.unwatch(type);
 			}
 		}
 	}
