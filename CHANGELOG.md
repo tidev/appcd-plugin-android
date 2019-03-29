@@ -1,4 +1,4 @@
-# v1.3.0
+# v1.3.0 (Mar 29, 2019)
 
  * Upgraded to Gulp 4.
  * Update dependencies
@@ -7,6 +7,7 @@
  * Utilize Genymotion service for detecting emulator changes instead of just watching the
    VirtualBox config.
    [(DAEMON-252)](https://jira.appcelerator.org/browse/DAEMON-252)
+ * Update dependencies
 
 # v1.2.0 (Oct 25, 2018)
 
