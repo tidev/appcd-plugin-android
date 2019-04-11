@@ -1,3 +1,7 @@
+# v1.4.0
+
+ * Updated config to remove redundant `android` namespace.
+
 # v1.3.0 (Mar 29, 2019)
 
  * Upgraded to Gulp 4.
