@@ -1,6 +1,7 @@
-# v1.4.0
+# v1.4.0 (Jun 6, 2019)
 
  * Updated config to remove redundant `android` namespace.
+ * chore: Switched `prepare` script to `prepack`.
 
 # v1.3.0 (Mar 29, 2019)
 

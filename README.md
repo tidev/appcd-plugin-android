@@ -8,9 +8,8 @@ The `info` service uses [androidlib](https://github.com/appcelerator/androidlib)
 installed Android SDKs, NDKs, emulators, devices, etc and returns the information.
 
 ```js
-appcd.call('/android/latest/info', ctx => {
-	console.log(ctx.response);
-});
+const { response } = await appcd.call('/android/latest/info');
+console.log(response);
 ```
 
 ## Legal
