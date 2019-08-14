@@ -1,33 +1,37 @@
+# v1.5.0 (Aug 14, 2019)
+
+ * chore: Added Appc Daemon v3 to list of compatible appcd versions.
+ * chore: Updated dependencies.
+
 # v1.4.0 (Jun 6, 2019)
 
- * Updated config to remove redundant `android` namespace.
+ * fix: Updated config to remove redundant `android` namespace.
  * chore: Switched `prepare` script to `prepack`.
 
 # v1.3.0 (Mar 29, 2019)
 
- * Upgraded to Gulp 4.
- * Update dependencies
- * Updated filesystem watching to use new `appcd.fs.watch()` and `appcd.fs.unwatch()` to optimize
-   subscriptions. [(DAEMON-253)](https://jira.appcelerator.org/browse/DAEMON-253)
- * Utilize Genymotion service for detecting emulator changes instead of just watching the
-   VirtualBox config.
-   [(DAEMON-252)](https://jira.appcelerator.org/browse/DAEMON-252)
+ * chore: Upgraded to Gulp 4.
+ * chore: Update dependencies
+ * fix: Updated filesystem watching to use new `appcd.fs.watch()` and `appcd.fs.unwatch()` to
+   optimize subscriptions. [(DAEMON-253)](https://jira.appcelerator.org/browse/DAEMON-253)
+ * fix: Utilize Genymotion service for detecting emulator changes instead of just watching the
+   VirtualBox config. [(DAEMON-252)](https://jira.appcelerator.org/browse/DAEMON-252)
 
 # v1.2.0 (Oct 25, 2018)
 
- * Moved to `@appcd` scope
- * Update dependencies
- * Add Daemon 2.x support
+ * chore: Moved to `@appcd` scope
+ * chore: Update dependencies
+ * feat: Add Daemon 2.x support
 
 # v1.1.0 (Apr 9, 2018)
 
- * Removed `appcd-*` dependencies and locked down the appcd version in the `package.json`.
+ * fix: Removed `appcd-*` dependencies and locked down the appcd version in the `package.json`.
    [(DAEMON-208)](https://jira.appcelerator.org/browse/DAEMON-208)
- * Improved `adb` tracking to re-initialize device tracking as soon as adb is discovered.
+ * fix: Improved `adb` tracking to re-initialize device tracking as soon as adb is discovered.
    [(DAEMON-164)](https://jira.appcelerator.org/browse/DAEMON-164)
- * Add vbox config file to emulator watch paths.
+ * fix: Add vbox config file to emulator watch paths.
    [(DAEMON-249)](https://jira.appcelerator.org/browse/DAEMON-249)
- * Updated npm dependencies.
+ * chore: Updated dependencies.
 
 # v1.0.0 (Dec 5, 2017)
 
