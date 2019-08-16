@@ -22,12 +22,11 @@
     "source-map-support": "^0.5.13"
   },
   "devDependencies": {
-    "appcd-gulp": "^2.2.0",
-    "gulp": "^4.0.2"
+    "appcd-gulp": "^2.2.0"
   },
-  "homepage": "https://github.com/appcelerator/appc-daemon-plugins/tree/master/packages/appcd-plugin-android",
-  "bugs": "https://github.com/appcelerator/appc-daemon-plugins/issues",
-  "repository": "https://github.com/appcelerator/appc-daemon-plugins",
+  "homepage": "https://github.com/appcelerator/appc-daemon",
+  "bugs": "https://github.com/appcelerator/appcd-plugin-android/issues",
+  "repository": "https://github.com/appcelerator/appcd-plugin-android",
   "appcd": {
     "appcdVersion": "3.x",
     "config": "./conf/config.js",
