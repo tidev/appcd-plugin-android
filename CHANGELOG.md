@@ -1,3 +1,13 @@
+# v2.0.0 (Nov 8, 2019)
+
+ * BREAKING CHANGE: Renamed 'sdk' and 'ndk' to 'sdks' and 'ndks'.
+ * BREAKING CHANGE: No longer scan for deprecated 'android' executable.
+ * BREAKING CHANGE: Removed 'targets'. Combine 'addons' and 'platforms' to get same result.
+ * fix: Fixed bug with selecting the correct default Android SDK.
+ * feat: Wired up live configuration changes.
+   [(DAEMON-198)](https://jira.appcelerator.org/browse/DAEMON-198)
+ * chore: Update dependencies.
+
 # v1.5.1 (Nov 8, 2019)
 
  * chore: Updated dependencies.
