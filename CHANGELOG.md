@@ -1,4 +1,4 @@
-# v2.0.0
+# v2.0.0 (Nov 8, 2019)
 
  * BREAKING CHANGE: Renamed 'sdk' and 'ndk' to 'sdks' and 'ndks'.
  * BREAKING CHANGE: No longer scan for deprecated 'android' executable.
