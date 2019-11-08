@@ -1,3 +1,7 @@
+# v1.5.1 (Nov 8, 2019)
+
+ * chore: Updated dependencies.
+
 # v1.5.0 (Aug 14, 2019)
 
  * chore: Added Appc Daemon v3 to list of compatible appcd versions.
