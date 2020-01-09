@@ -1,6 +1,6 @@
 {
   "name": "@appcd/plugin-android",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Android service for the Appc Daemon.",
   "main": "./dist/index",
   "author": "Appcelerator, Inc. <npmjs@appcelerator.com>",
@@ -17,19 +17,19 @@
   },
   "dependencies": {
     "androidlib": "^2.5.0",
-    "gawk": "^4.6.6",
-    "semver": "^6.3.0",
+    "gawk": "^4.7.0",
+    "semver": "^7.1.1",
     "source-map-support": "^0.5.16"
   },
   "devDependencies": {
-    "appcd-gulp": "^2.3.0",
+    "appcd-gulp": "^2.3.1",
     "gulp": "^4.0.2"
   },
   "homepage": "https://github.com/appcelerator/appc-daemon-plugins/tree/master/packages/appcd-plugin-android",
   "bugs": "https://github.com/appcelerator/appc-daemon-plugins/issues",
   "repository": "https://github.com/appcelerator/appc-daemon-plugins",
   "appcd": {
-    "appcdVersion": "1.x || 2.x || 3.x",
+    "apiVersion": "1.x",
     "config": "./conf/config.js",
     "name": "android",
     "type": "external"
