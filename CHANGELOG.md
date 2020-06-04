@@ -1,3 +1,8 @@
+# v1.5.3 (Jun 3, 2020)
+
+ * chore: Added API version 2.x.
+ * chore: Updated dependencies.
+
 # v1.5.2 (Jan 9, 2020)
 
  * chore: Switched to new `appcd.apiVersion`.
