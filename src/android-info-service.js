@@ -367,6 +367,12 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 				})
 				.once('error', err => {
 					console.log('Track devices returned error: %s', err.message);
+					this.stopTrackingDevices(err.code === 'ECONNREFUSED' ? 'could not connect to adb' : null);
+					if (err.code === 'ECONNREFUSED') {
+						// if we found an adb, but couldn't connect, then it's probably bad
+						this.selectedADB = null;
+					}
+					resolve();
 				});
 		});
 	}
@@ -379,7 +385,7 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 	 */
 	stopTrackingDevices(msg) {
 		if (this.trackDeviceHandle) {
-			console.log('Stopping device tracking, %s', msg);
+			console.log(`Stopping device tracking${msg ? `: ${msg}` : ''}`);
 			this.trackDeviceHandle.stop();
 			this.trackDeviceHandle = null;
 		}

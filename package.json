@@ -1,6 +1,6 @@
 {
   "name": "@appcd/plugin-android",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Android service for the Appc Daemon.",
   "main": "./dist/index",
   "author": "Appcelerator, Inc. <npmjs@appcelerator.com>",

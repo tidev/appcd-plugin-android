@@ -1,3 +1,7 @@
+# v2.0.3 (Jun 10, 2020)
+
+ * fix: Gracefully handle adb connection issues.
+
 # v2.0.2 (Jun 4, 2020)
 
  * chore: Added API version 2.x.
