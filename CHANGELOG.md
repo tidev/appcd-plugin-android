@@ -1,3 +1,10 @@
+# v2.1.1 (Jun 23, 2020)
+
+ * refactor: Remove Genymotion detection where changes would simply triggered a rescan.
+   [(DAEMON-313)](https://jira.appcelerator.org/browse/DAEMON-313)
+ * build: Transpile using Node.js 10 profile.
+ * chore: Updated dependencies.
+
 # v2.0.3 (Jun 10, 2020)
 
  * fix: Gracefully handle adb connection issues.

@@ -224,22 +224,6 @@ export default class AndroidInfoService extends DataServiceDispatcher {
 			type: 'avd'
 		});
 
-		try {
-			const { response } = await appcd.call('/genymotion/1.x/info/emulators', { type: 'subscribe' });
-			response.on('data', rescan);
-		} catch (e) {
-			console.warn('Unable to subscribe to Genymotion, reverting to watching the VirtualBox config');
-			appcd.fs.watch({
-				debounce: true,
-				handler: rescan,
-				depth: 2,
-				paths: [
-					androidlib.virtualbox.virtualBoxConfigFile[process.platform]
-				],
-				type: 'vboxconf'
-			});
-		}
-
 		await new Promise((resolve, reject) => {
 			// if sdks change, then refresh the simulators and update the targets object
 			gawk.watch(this.data.sdks, async () => {
