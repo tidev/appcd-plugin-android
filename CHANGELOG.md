@@ -1,3 +1,7 @@
+# v2.1.2
+
+ * chore: Updated to androidlib@6, which only removed SDK and NDK search paths.
+
 # v2.1.1 (Jun 23, 2020)
 
  * refactor: Remove Genymotion detection where changes would simply triggered a rescan.
