@@ -12,5 +12,6 @@ junit.xml
 node_modules
 npm-debug.log
 yarn-error.log
+yarn.lock
 /src
 /test

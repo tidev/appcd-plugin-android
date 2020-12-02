@@ -1,6 +1,7 @@
-# v2.1.2
+# v2.1.2 (Dec 2, 2020)
 
- * chore: Updated to androidlib@6, which only removed SDK and NDK search paths.
+ * chore: Updated to androidlib@6, which removed legacy SDK and NDK search paths.
+ * chore: Updated dependencies.
 
 # v2.1.1 (Jun 23, 2020)
 
